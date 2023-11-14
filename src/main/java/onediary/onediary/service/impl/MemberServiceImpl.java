@@ -8,10 +8,10 @@ import onediary.onediary.dto.member.MemberDto;
 import onediary.onediary.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements IMemberService {
 
@@ -38,10 +38,16 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
-    public int countRecordByMemberEmail(Long memberId){
+    @Transactional
+    public int countRecordByMember(Long memberId){
         Optional<Member> optionalMember = memberRepository.findById(memberId);
-        return optionalMember.map(Member::getRecordCount).orElse(0);
-
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.updateRecordCount(); // 레코드 카운트 업데이트
+            return member.getRecordCount();
+        } else {
+            throw new IllegalArgumentException("Member not found");
+        }
     }
 
 }
