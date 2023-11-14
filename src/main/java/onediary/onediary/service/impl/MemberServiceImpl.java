@@ -8,10 +8,10 @@ import onediary.onediary.dto.member.MemberDto;
 import onediary.onediary.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements IMemberService {
 
@@ -28,36 +28,20 @@ public class MemberServiceImpl implements IMemberService {
     @Override
     public Optional<MemberDto> findMemberById(Long memberId){
         Optional<Member> optionalMember =  memberRepository.findById(memberId);
-        if(optionalMember.isPresent()){
-            return optionalMember.map(MemberDto::toDto);
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+        return optionalMember.map(MemberDto::toDto);
     }
 
     @Override
     public Optional<MemberDto> findByEmail(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        if(optionalMember.isPresent()) {
-            return optionalMember.map(MemberDto::toDto);
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+        return optionalMember.map(MemberDto::toDto);
     }
 
     @Override
-    @Transactional
-    public int countRecordByMember(Long memberId){
+    public int countRecordByMemberEmail(Long memberId){
         Optional<Member> optionalMember = memberRepository.findById(memberId);
-        if(optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            member.updateRecordCount();
-            return member.getRecordCount();
-        }
-        else{
-            throw new IllegalArgumentException("Member not found");
-        }
+        return optionalMember.map(Member::getRecordCount).orElse(0);
+
     }
+
 }
