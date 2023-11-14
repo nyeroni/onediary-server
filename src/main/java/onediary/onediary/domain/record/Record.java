@@ -2,6 +2,7 @@ package onediary.onediary.domain.record;
 
 import jakarta.persistence.*;
 import lombok.*;
+import onediary.onediary.component.auditing.BaseEntity;
 import onediary.onediary.domain.member.Member;
 
 @Getter
@@ -9,7 +10,7 @@ import onediary.onediary.domain.member.Member;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Record{
+public class Record extends BaseEntity {
 
     @Id
     @GeneratedValue

@@ -2,6 +2,7 @@ package onediary.onediary.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import onediary.onediary.component.auditing.BaseTimeEntity;
 import onediary.onediary.domain.record.Record;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
