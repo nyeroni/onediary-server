@@ -25,6 +25,8 @@ public class Member extends BaseTimeEntity {
     private String username;
     private String email;
 
+    private int recordCount;
+
     @Enumerated(EnumType.STRING)
     private SocialProvider socialProvider;
 
@@ -35,5 +37,9 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Record> recordList = new ArrayList<>();
+
+    public void updateRecordCount(){
+        this.recordCount = this.recordList.size();
+    }
 
 }
