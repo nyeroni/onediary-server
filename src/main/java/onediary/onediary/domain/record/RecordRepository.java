@@ -13,4 +13,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
     List<Record> findAllByEmail(@Param("email") String email);
     @Query("SELECT r FROM Record r WHERE DATE(r.createdDate) = DATE(:createdDate)")
     Optional<Record> findByDate(@Param("createdDate") LocalDateTime createdDate);
+
+    @Query("SELECT COUNT(r) FROM Record r WHERE r.member.email = :email")
+    int countRecordsByMemberEmail(@Param("email") String email);
 }
