@@ -30,9 +30,6 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialProvider socialProvider;
 
-    @Builder.Default
-    @Embedded
-    private Score score = new Score(0);
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
