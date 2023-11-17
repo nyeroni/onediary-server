@@ -58,13 +58,14 @@ public class Member extends BaseTimeEntity {
         memberRepository.save(this);
 
     }
+    public void updateRoleKey(Role role) {
+        this.role = role;
+    }
+
     public void resetCount(){
         LocalDateTime today = LocalDateTime.now();
         if(today.getDayOfMonth() == 1){
             this.recordCount = 0;
         }
-    }
-    public void updateRoleKey(Role role) {
-        this.role = role;
     }
 }
