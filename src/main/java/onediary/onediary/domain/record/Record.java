@@ -23,4 +23,7 @@ public class Record extends BaseEntity {
 
     private String description;
 
+    public void update(String description){
+        this.description = description;
+    }
 }
