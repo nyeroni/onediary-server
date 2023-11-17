@@ -1,17 +1,20 @@
 package onediary.onediary.service;
 
-import onediary.onediary.dto.record.record.RecordDto;
-import org.springframework.stereotype.Service;
+import onediary.onediary.dto.record.record.RecordViewDto;
+import onediary.onediary.dto.record.record.RecordWriteDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface IRecordService {
-    List<RecordDto> findAllRecords(String username);
-    Optional<RecordDto> findRecordById(Long recordId);
-    Optional<RecordDto> findRecordByCreatedDate(LocalDateTime createdDate);
-    RecordDto createRecord(RecordDto recordDto);
-    RecordDto updateRecordDescription(Long recordId, String updatedDescription);
+    List<RecordViewDto> getRecords(Long memberId);
+    List<RecordViewDto> findAllRecords(String email);
+    RecordViewDto findRecordById(Long recordId);
+    Optional<Long> findRecordByCreatedDate(LocalDateTime createdDate);
+    Long createRecord(RecordWriteDto recordDto);
+
+    Long updateRecordDescription(Long recordId, String updatedDescription);
     void deleteRecord(Long recordId);
+    List<RecordViewDto> getRecordsAfterUpdate(Long memberId);
 }
