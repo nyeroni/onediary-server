@@ -22,7 +22,9 @@ public class Record extends BaseEntity {
     private Member member;
 
     private String description;
-
+    public void setMember(Member member){
+        this.member = member;
+    }
     public void update(String description){
         this.description = description;
     }
