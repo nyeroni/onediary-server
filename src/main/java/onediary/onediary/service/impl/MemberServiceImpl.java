@@ -26,12 +26,14 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
+    @Transactional
     public Optional<MemberDto> findMemberById(Long memberId){
         Optional<Member> optionalMember =  memberRepository.findById(memberId);
         return optionalMember.map(MemberDto::toDto);
     }
 
     @Override
+    @Transactional
     public Long findByEmail(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.get().getId();
