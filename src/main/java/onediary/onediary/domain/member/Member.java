@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,9 +27,13 @@ public class Member extends BaseTimeEntity {
     private String username;
     private String email;
 
+    @Builder.Default
+    @Enumerated(STRING)
+    private Role role = Role.GUEST;
+
     private int recordCount;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private SocialProvider socialProvider;
 
 
@@ -59,5 +64,7 @@ public class Member extends BaseTimeEntity {
             this.recordCount = 0;
         }
     }
-
+    public void updateRoleKey(Role role) {
+        this.role = role;
+    }
 }
