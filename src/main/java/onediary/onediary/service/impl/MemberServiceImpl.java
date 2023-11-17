@@ -32,9 +32,9 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
-    public Optional<MemberDto> findByEmail(String email){
+    public Long findByEmail(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        return optionalMember.map(MemberDto::toDto);
+        return optionalMember.get().getId();
     }
 
     @Override
