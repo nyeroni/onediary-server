@@ -23,13 +23,10 @@ public class Record extends BaseEntity {
 
     @Column(columnDefinition = "TEXT", length = 500, nullable = false)
     private String description;
-
-
     public void setMember(Member member){
         this.member = member;
     }
     public void update(String description){
         this.description = description;
     }
-
 }
