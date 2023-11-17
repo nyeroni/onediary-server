@@ -5,6 +5,7 @@ import lombok.*;
 import onediary.onediary.component.auditing.BaseTimeEntity;
 import onediary.onediary.domain.record.Record;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,6 @@ public class Member extends BaseTimeEntity {
     }
 
     public void addRecord(Record record) {
-        System.out.println("OKKKKK");
         recordList.add(record);
         record.setMember(this);
     }
@@ -52,6 +52,12 @@ public class Member extends BaseTimeEntity {
 
         memberRepository.save(this);
 
+    }
+    public void resetCount(){
+        LocalDateTime today = LocalDateTime.now();
+        if(today.getDayOfMonth() == 1){
+            this.recordCount = 0;
+        }
     }
 
 }
