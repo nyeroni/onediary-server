@@ -36,12 +36,10 @@ public class MemberServiceImpl implements IMemberService {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.get().getId();
     }
-
     @Override
     @Transactional
     public int findCount(Long memberId){
         Member member = memberRepository.findById(memberId).get();
         return member.getRecordCount();
     }
-
 }
