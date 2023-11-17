@@ -14,4 +14,9 @@ public class OauthController {
     public void kakaoCallback(@RequestParam String code){
         log.info("code : "+ code);
     }
+    @ResponseBody
+    @GetMapping("/api/oauth/naver")
+    public void naverCallback(@RequestParam String code){
+        log.info("code : "+ code);
+    }
 }
