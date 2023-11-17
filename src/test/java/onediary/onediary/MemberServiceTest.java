@@ -68,8 +68,4 @@ public class MemberServiceTest {
         assertThat(memberDto.getUsername()).isEqualTo(member1.getUsername());
         assertThat(memberDto.getEmail()).isEqualTo(member1.getEmail());
     }
-
-
-
-
 }
