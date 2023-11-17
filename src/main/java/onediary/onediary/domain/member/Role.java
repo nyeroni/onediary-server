@@ -9,6 +9,6 @@ public enum Role {
     GUEST("ROLE_GUEST", "게스트"),
     MEMBER("ROLE_MEMBER", "사용자");
 
-     private final String key;
-     private final String title;
+    private final String key;
+    private final String title;
 }
