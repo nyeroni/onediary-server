@@ -39,15 +39,9 @@ public class MemberServiceImpl implements IMemberService {
 
     @Override
     @Transactional
-    public int countRecordByMember(Long memberId){
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            member.updateRecordCount(); // 레코드 카운트 업데이트
-            return member.getRecordCount();
-        } else {
-            throw new IllegalArgumentException("Member not found");
-        }
+    public int findCount(Long memberId){
+        Member member = memberRepository.findById(memberId).get();
+        return member.getRecordCount();
     }
 
 }
