@@ -35,8 +35,23 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Record> recordList = new ArrayList<>();
 
-    public void updateRecordCount(){
+    public void updateRecordCount() {
         this.recordCount = this.recordList.size();
+    }
+
+    public void addRecord(Record record) {
+        System.out.println("OKKKKK");
+        recordList.add(record);
+        record.setMember(this);
+    }
+
+    public int getRecordCount() {
+        return recordList.size();
+    }
+    public void save(MemberRepository memberRepository){
+
+        memberRepository.save(this);
+
     }
 
 }
