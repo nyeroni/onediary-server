@@ -21,12 +21,12 @@ public class Record extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(columnDefinition = "TEXT", length = 500, nullable = false)
     private String description;
-
-
-    public void setMember(Member member){
-        this.member = member;
+    @PostPersist
+    @PostRemove
+    private void updateMemberRecordCount() {
+        if (member != null) {
+            member.updateRecordCount();
+        }
     }
-
 }
