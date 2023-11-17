@@ -7,5 +7,4 @@ import java.util.Optional;
 public interface IMemberService {
     Optional<MemberDto> findMemberById(Long memberId);
     Long findByEmail(String email);
-    int countRecordByMember(Long memberId);
 }
