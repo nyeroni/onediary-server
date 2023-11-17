@@ -1,7 +1,7 @@
 package onediary.onediary.service;
 
-import onediary.onediary.dto.record.record.RecordViewDto;
-import onediary.onediary.dto.record.record.RecordWriteDto;
+import onediary.onediary.dto.record.RecordViewDto;
+import onediary.onediary.dto.record.RecordWriteDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

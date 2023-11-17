@@ -5,11 +5,10 @@ import onediary.onediary.domain.member.Member;
 import onediary.onediary.domain.member.MemberRepository;
 import onediary.onediary.domain.record.Record;
 import onediary.onediary.domain.record.RecordRepository;
-import onediary.onediary.dto.record.record.RecordViewDto;
-import onediary.onediary.dto.record.record.RecordWriteDto;
+import onediary.onediary.dto.record.RecordViewDto;
+import onediary.onediary.dto.record.RecordWriteDto;
 import onediary.onediary.service.IRecordService;
 import onediary.onediary.service.exception.RecordNotFoundException;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package onediary.onediary.dto.record.record;
+package onediary.onediary.dto.record;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
