@@ -22,11 +22,5 @@ public class Record extends BaseEntity {
     private Member member;
 
     private String description;
-    @PostPersist
-    @PostRemove
-    private void updateMemberRecordCount() {
-        if (member != null) {
-            member.updateRecordCount();
-        }
-    }
+
 }
