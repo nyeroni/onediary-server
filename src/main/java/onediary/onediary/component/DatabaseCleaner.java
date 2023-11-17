@@ -1,7 +1,6 @@
 package onediary.onediary.component;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.base.CaseFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
