@@ -32,6 +32,7 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
+    @Transactional
     public Long findByEmail(String email){
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         return optionalMember.get().getId();
@@ -49,5 +50,4 @@ public class MemberServiceImpl implements IMemberService {
             throw new IllegalArgumentException("Member not found");
         }
     }
-
 }
