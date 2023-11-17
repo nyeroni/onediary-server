@@ -26,6 +26,7 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
+    @Transactional
     public Optional<MemberDto> findMemberById(Long memberId){
         Optional<Member> optionalMember =  memberRepository.findById(memberId);
         return optionalMember.map(MemberDto::toDto);
