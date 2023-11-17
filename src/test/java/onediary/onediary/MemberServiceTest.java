@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -68,4 +70,45 @@ public class MemberServiceTest {
         assertThat(memberDto.getUsername()).isEqualTo(member1.getUsername());
         assertThat(memberDto.getEmail()).isEqualTo(member1.getEmail());
     }
+
+    @Test
+    void findByEmail() {
+        // when
+        Long memberId = memberService.findByEmail(member1.getEmail());
+        Member member = memberRepository.findById(memberId).get();
+
+
+        // then
+        assertThat(memberId).isEqualTo(member1.getId());
+        assertThat(member.getEmail()).isEqualTo(member1.getEmail());
+        assertThat(member.getUsername()).isEqualTo(member1.getUsername());
+    }
+    @Test
+    void findCount() {
+        //when
+        String description1 = "안녕하세요.";
+        String description2 = "반갑습니다.";
+        String description3 = "테스트입니다.";
+
+
+        recordRepository.save(Record.builder()
+                .member(member1)
+                .description(description1)
+                .build());
+        recordRepository.save(Record.builder()
+                .member(member1)
+                .description(description2)
+                .build());
+        recordRepository.save(Record.builder()
+                .member(member1)
+                .description(description3)
+                .build());
+
+        // when
+        int count = memberService.findCount(member1.getId());
+
+        // then
+        assertThat(count).isEqualTo(3);
+    }
+
 }
