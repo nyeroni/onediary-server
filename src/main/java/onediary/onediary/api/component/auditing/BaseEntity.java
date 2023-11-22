@@ -1,4 +1,4 @@
-package onediary.onediary.component.auditing;
+package onediary.onediary.api.component.auditing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
