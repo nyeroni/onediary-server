@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JwtConfig {
-    @Value("${jwt.secret}")
+    @Value("${jwt.token.secret-key}")
     private String secret;
 
-    //jwt를 사용하기 위한 설정
+    // jwt를 사용하기 위한 설정
     @Bean
-    public AuthTokenProvider jwtProvider(){
+    public AuthTokenProvider jwtProvider() {
+        // JWT Secret 값 로깅 추가
         return new AuthTokenProvider(secret);
     }
 

@@ -1,5 +1,6 @@
 //package onediary.onediary.oauth.info.impl;
 //
+//
 //import onediary.onediary.oauth.info.OAuth2UserInfo;
 //
 //import java.util.Map;
@@ -12,7 +13,7 @@
 //    }
 //    @Override
 //    public String getId() {
-//        return attributes.get("id").toString();
+//        return attributes.get("sub").toString();
 //    }
 //
 //    @Override
@@ -28,6 +29,10 @@
 //    @Override
 //    public String getEmail()
 //    {
-//        return (String) attributes.get("email");
-//    }
+//        // 이메일 정보를 가져올 수 있는지 확인
+//        if (attributes.containsKey("email")) {
+//            return attributes.get("email").toString();
+//        } else {
+//            throw new RuntimeException("이메일 정보를 가져올 수 없습니다. Apple 로그인 시 이메일 제공 동의를 받아주세요.");
+//        }    }
 //}

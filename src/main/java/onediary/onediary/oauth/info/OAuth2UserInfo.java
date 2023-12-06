@@ -1,5 +1,6 @@
 package onediary.onediary.oauth.info;
 
+
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {

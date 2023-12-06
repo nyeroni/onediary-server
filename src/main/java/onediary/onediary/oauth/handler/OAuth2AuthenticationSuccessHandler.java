@@ -1,21 +1,16 @@
 package onediary.onediary.oauth.handler;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.api.domain.member.entity.MemberRefreshToken;
-import onediary.onediary.api.domain.member.entity.Role;
-import onediary.onediary.api.domain.member.entity.SocialProvider;
-import onediary.onediary.api.domain.member.repository.MemberRefreshTokenRepository;
 import onediary.onediary.config.properties.AppProperties;
+import onediary.onediary.domain.member.entity.Role;
+import onediary.onediary.domain.member.entity.SocialProvider;
 import onediary.onediary.oauth.info.OAuth2UserInfo;
 import onediary.onediary.oauth.info.OAuth2UserInfoFactory;
-import onediary.onediary.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
-import onediary.onediary.utils.CookieUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -26,28 +21,26 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
-import static onediary.onediary.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAuthority;
-import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REFRESH_TOKEN;
-
-@Component
+@Component //스프링 컨테스트에 이 클래스를 빈으로 등록
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
-    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
-    private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
 
+
+    //인증이 성공했을 때 호출되는 메서드
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException
     {
+        //redirect 할 대상 url 결정
         String targetUrl = determineTargetUrl(request, response, authentication);
         if(response.isCommitted()){
+            //이미 응답이 커밋되었는지 확인 후 디버그 메시지 출력
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
             return;
         }
@@ -56,8 +49,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
     @Override
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
-        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-                .map(Cookie::getValue);
+        Optional<String> redirectUri = Optional.ofNullable(request.getParameter("redirect_uri"));
+
         if(redirectUri.isPresent()&&!isAuthorizedRedirectUri(redirectUri.get())){
             throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
         }
@@ -70,35 +63,19 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(socialProvider, user.getAttributes());
         Collection<? extends GrantedAuthority>authorities = ((OidcUser)authentication.getPrincipal()).getAuthorities();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String tokenExpiryString = dateFormat.format(new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
+
         Role role = hasAuthority(authorities, Role.ADMIN.getCode())? Role.ADMIN:Role.USER;
 
-        Date now = new Date();
-        AuthToken accessToken = tokenProvider.createAuthToken(
+        AuthToken accessToken = tokenProvider.createToken(
                 userInfo.getId(),
-                role.getCode(),
-                new Date(now.getTime()+appProperties.getAuth().getTokenExpiry())
+                Role.USER,
+                tokenExpiryString
         );
 
-        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-                appProperties.getAuth().getTokenSecret(),
-                new Date(now.getTime()+refreshTokenExpiry)
-        );
 
-        //DB 저장
-        MemberRefreshToken memberRefreshToken = memberRefreshTokenRepository.findByUserId(userInfo.getId());
-        if(memberRefreshToken!=null){
-            memberRefreshToken.setRefreshToken(refreshToken.getToken());
-           // memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
-        }
-        else{
-            memberRefreshToken = new MemberRefreshToken(userInfo.getId(), refreshToken.getToken());
-            memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
-        }
-
-        int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        CookieUtil.deleteCookie(request,response, REFRESH_TOKEN );
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", accessToken.getToken())
@@ -109,7 +86,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response){
         super.clearAuthenticationAttributes(request);
-        authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 
     private boolean hasAuthority(Collection<? extends  GrantedAuthority> authorities, String authority){
@@ -138,4 +114,4 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     return false;
                 });
     }
- }
+}

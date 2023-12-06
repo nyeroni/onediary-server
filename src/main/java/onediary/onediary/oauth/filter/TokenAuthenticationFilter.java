@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
-import onediary.onediary.utils.HeaderUtil;
+import onediary.onediary.oauth.utils.JwtHeaderUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,7 +27,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException{
         log.debug("TokenAuthenticationFilter - Processing request...");
 
-        String tokenStr = HeaderUtil.getAccessToken(request);
+        String tokenStr = JwtHeaderUtil.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
 
         if(token.validate()){
