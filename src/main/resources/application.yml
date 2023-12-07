@@ -1,29 +1,4 @@
 
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/onediary?useSSL=true&useUnicode=true&serverTimezone=Asia/Seoul
-    username: jsyr
-    password: 00050826
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        #show_sql: true
-        format_sql: true
-        default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQLDialect
-        dialect.storage_engine: innodb
-#    open-in-view: false
-
-  profiles:
-    include: oauth
 
 logging.level:
   org.hibernate.SQL: debug
