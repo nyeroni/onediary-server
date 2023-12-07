@@ -2,6 +2,8 @@ HELP.md
 .gradle
 .idea
 application-oauth.yml
+application-db.yml
+keystore.p12
 
 build/
 !gradle/wrapper/gradle-wrapper.jar
