@@ -1,47 +1,44 @@
 package onediary.onediary.oauth.service;
 
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.domain.member.entity.SocialProvider;
-import onediary.onediary.dto.member.MemberResponseDto;
-import onediary.onediary.oauth.info.impl.KakaoOAuth2UserInfo;
-import onediary.onediary.service.IMemberService;
-import org.springframework.core.ParameterizedTypeReference;
+import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.repository.MemberQuerydslRepository;
+import onediary.onediary.member.repository.MemberRepository;
+import onediary.onediary.oauth.client.ClientKakao;
+import onediary.onediary.oauth.token.AuthRequestDto;
+import onediary.onediary.oauth.token.AuthResponseDto;
+import onediary.onediary.oauth.token.AuthToken;
+import onediary.onediary.oauth.token.AuthTokenProvider;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class KakaoOauthService {
-    private final IMemberService memberService;
+    private final ClientKakao clientKakao;
+    private final MemberQuerydslRepository memberQuerydslRepository;
+    private final AuthTokenProvider authTokenProvider;
+    private final MemberRepository memberRepository;
 
-    public Map<String, Object> getUserAttriibutesByToken(String accessToken){
-        return WebClient.create()
-                .get()
-                .uri("https://kapi.kakao.com/v2/user/me")
-                .headers(httpHeaders -> httpHeaders.setBearerAuth(accessToken))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .block();
-    }
+    @Transactional
+    public AuthResponseDto login(AuthRequestDto authRequest) {
+        Member kakaoMember = clientKakao.getUserData(authRequest.getAccessToken());
+        String socialId = kakaoMember.getSocialId();
+        Member member = memberQuerydslRepository.findBySocialId(socialId);
 
-    public MemberResponseDto getUserProfileByToken(String accessToken){
-        Map<String, Object> userAttributesByToken = getUserAttriibutesByToken(accessToken);
-        KakaoOAuth2UserInfo kakaoOAuth2UserInfo = new KakaoOAuth2UserInfo(userAttributesByToken);
+        AuthToken appToken = authTokenProvider.createMemberJwtToken(socialId);
 
-        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
-                .socialId(kakaoOAuth2UserInfo.getId())
-                .email(kakaoOAuth2UserInfo.getEmail())
-                .username(kakaoOAuth2UserInfo.getName())
-                .socialProvider(SocialProvider.KAKAO)
+        if (member == null) {
+            memberRepository.save(kakaoMember);
+            return AuthResponseDto.builder()
+                    .jwtToken(appToken.getToken())
+                    .isNewMember(Boolean.TRUE)
+                    .build();
+        }
+
+        return AuthResponseDto.builder()
+                .jwtToken(appToken.getToken())
+                .isNewMember(Boolean.FALSE)
                 .build();
-        if(memberService.findMemberBySocialId(kakaoOAuth2UserInfo.getId())!=null){
-
-        }
-        else{
-            memberService.save(memberResponseDto);
-        }
-        return memberResponseDto;
     }
 }

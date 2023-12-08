@@ -11,5 +11,5 @@ public class AuthResponseDto
 {
 
     private String jwtToken;
-    private String accessToken;
+    private Boolean isNewMember;
 }

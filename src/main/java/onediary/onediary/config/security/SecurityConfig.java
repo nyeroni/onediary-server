@@ -2,23 +2,16 @@ package onediary.onediary.config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import onediary.onediary.config.properties.AppProperties;
 import onediary.onediary.config.properties.CorsProperties;
-import onediary.onediary.oauth.entryPoint.RestAuthenticationEntryPoint;
 import onediary.onediary.oauth.filter.TokenAuthenticationFilter;
-import onediary.onediary.oauth.handler.OAuth2AuthenticationFailureHandler;
-import onediary.onediary.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import onediary.onediary.oauth.token.AuthTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -35,10 +28,10 @@ import java.util.Arrays;
 public class SecurityConfig {
 
 
-    private final CorsProperties corsProperties;
-    private final AppProperties appProperties;
+
     private final AuthTokenProvider tokenProvider;
-    private final OAuth2UserService oAuth2UserService;
+    private final CorsProperties corsProperties;
+
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -52,6 +45,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+        TokenAuthenticationFilter tokenAuthenticationFilter = new TokenAuthenticationFilter(tokenProvider);
         http
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
@@ -62,10 +56,6 @@ public class SecurityConfig {
                 .formLogin()
                 .disable()
                 .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-             //   .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
                 .authorizeHttpRequests(authorizeRequests->
                         authorizeRequests
                                 .requestMatchers(
@@ -95,22 +85,9 @@ public class SecurityConfig {
                                 //    .requestMatchers(
                                 // AntPathRequestMatcher.antMatcher("/api/**/admin/**")).hasAnyAuthority(Role.ADMIN.getCode())
                                 .anyRequest().authenticated()
-                )
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-              //  .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
-                .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
-                .and()
-                .userInfoEndpoint()
-                .userService(oAuth2UserService)
-                .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler())
-                .failureHandler(oAuth2AuthenticationFailureHandler());
+                );
 
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout()
                 // .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/");
@@ -121,42 +98,17 @@ public class SecurityConfig {
     }
 
 
-    /*
-     * auth 매니저 설정
-     * */
-    @Bean
-    AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+//
+//
+//    /*
+//     * 토큰 필터 설정
+//     * */
+//    @Bean
+//    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+//        return new TokenAuthenticationFilter(tokenProvider);
+//    }
 
 
-    /*
-     * 토큰 필터 설정
-     * */
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter(tokenProvider);
-    }
-
-
-    /*
-     * Oauth 인증 성공 핸들러
-     * */
-    @Bean
-    public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return new OAuth2AuthenticationSuccessHandler(
-                tokenProvider,
-                appProperties
-        );
-    }
-    /*
-     * Oauth 인증 실패 핸들러
-     * */
-    @Bean
-    public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
-        return new OAuth2AuthenticationFailureHandler();
-    }
     /*
      * Cors 설정
      * */

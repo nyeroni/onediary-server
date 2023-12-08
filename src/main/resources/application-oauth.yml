@@ -53,12 +53,13 @@ spring:
 ## jwt secret key 설정
 jwt:
   token:
-    secret-key: b25lZGlhcnktdGVjaC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0LW9uZWRpYXJ5LXRlY2gtc3ByaW5nLWJvb3Qtand0LXNlY3JldA0K
-    accessTokenExpiry: 1800000  # 30분 (30 * 60 * 1000 밀리초)
-    refreshTokenExpiry: 1209600000  # 2주 (14 * 24 * 60 * 60 * 1000 밀리초)
-  oauth2:
-    authorizedRedirectUris:
-      - http://localhost:8080
+    header: Authorization
+    secret: secretonediarykeymerongyerongsecretonediarykeymerongyerongsecretonediarykeymerongyerongsecretonediarykeymerongyerong
+    jwtTokenExpiry: 1800000 #30
+
+#  oauth2:
+#    authorizedRedirectUris:
+#      - http://localhost:8080
 
 ## JWT token
 #token:

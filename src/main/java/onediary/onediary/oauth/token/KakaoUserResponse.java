@@ -25,7 +25,6 @@ public class KakaoUserResponse {
     @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
     public static class Properties {
         private String nickname;
-        private String profileImage;
     }
 
     @ToString
@@ -34,6 +33,5 @@ public class KakaoUserResponse {
     @AllArgsConstructor
     public static class KakaoAccount {
         private String email;
-        private String gender;
     }
 }
