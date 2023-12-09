@@ -57,7 +57,7 @@ spring:
       enabled: true # h2 웹 콘솔 활성화
       path: /h2-console
 
-  datasource:
-    hikari:
-      username: sa
-      jdbc-url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL
+#  datasource:
+#    hikari:
+#      username: sa
+#      jdbc-url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL
