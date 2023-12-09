@@ -22,7 +22,7 @@ springdoc:
 
 
 server:
-  port: 8080
+  port: 8081
   servlet:
     encoding:
       force: true
@@ -53,6 +53,8 @@ spring:
   h2:
     console:
       enabled: true # h2 웹 콘솔 활성화
+      path: /h2-console
+
   datasource:
     hikari:
       username: sa
