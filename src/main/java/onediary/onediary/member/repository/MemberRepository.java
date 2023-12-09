@@ -1,6 +1,6 @@
 package onediary.onediary.member.repository;
 
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +8,11 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByMemberId(Long memberId);
-//    @Query("select m from Member m where m.email =:email")
+
+    @Override
+    Optional<Member> findById(Long memberId);
+
+    //    @Query("select m from Member m where m.email =:email")
        Optional<Member> findByEmail( String email);
 //
 

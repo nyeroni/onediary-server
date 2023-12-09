@@ -3,7 +3,7 @@ package onediary.onediary.oauth.service;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 import onediary.onediary.member.repository.MemberQuerydslRepository;
 import onediary.onediary.oauth.token.AuthResponseDto;
 import onediary.onediary.oauth.token.AuthToken;

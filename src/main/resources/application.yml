@@ -23,6 +23,9 @@ springdoc:
 
 server:
   port: 8080
+  servlet:
+    encoding:
+      force: true
 
 
 # cors 설정
@@ -32,6 +35,25 @@ cors:
   allowed-headers: '*'
   max-age: 3600
 
+
 spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect.storage_engine: innodb
+
+    show_sql: true
+
+  session:
+    store-type: jdbc
   profiles:
-    include: oauth, db
+    include: oauth
+
+  h2:
+    console:
+      enabled: true # h2 웹 콘솔 활성화
+  datasource:
+    hikari:
+      username: sa
+      jdbc-url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL

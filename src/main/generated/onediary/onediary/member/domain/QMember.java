@@ -1,4 +1,4 @@
-package onediary.onediary.member.entity;
+package onediary.onediary.member.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = -1166214671L;
+    private static final long serialVersionUID = 1233222128L;
 
     public static final QMember member = new QMember("member1");
 
@@ -34,7 +34,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final NumberPath<Integer> recordCount = createNumber("recordCount", Integer.class);
 
-    public final ListPath<onediary.onediary.record.Record, onediary.onediary.record.QRecord> recordList = this.<onediary.onediary.record.Record, onediary.onediary.record.QRecord>createList("recordList", onediary.onediary.record.Record.class, onediary.onediary.record.QRecord.class, PathInits.DIRECT2);
+    public final ListPath<onediary.onediary.record.domain.Record, onediary.onediary.record.domain.QRecord> recordList = this.<onediary.onediary.record.domain.Record, onediary.onediary.record.domain.QRecord>createList("recordList", onediary.onediary.record.domain.Record.class, onediary.onediary.record.domain.QRecord.class, PathInits.DIRECT2);
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 

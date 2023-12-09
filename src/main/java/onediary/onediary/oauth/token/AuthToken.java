@@ -5,7 +5,7 @@ import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import onediary.onediary.member.entity.Role;
+import onediary.onediary.member.domain.Role;
 
 import java.security.Key;
 import java.util.Date;

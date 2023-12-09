@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class MemberResponseDto {
 
 
-    private String nickName;
+    private String userName;
     private String email;
+    private int recordCount;
 }

@@ -1,4 +1,4 @@
-package onediary.onediary.member.dto.member;
+package onediary.onediary.mainpage.dto;
 
 import lombok.Builder;
 import lombok.Data;

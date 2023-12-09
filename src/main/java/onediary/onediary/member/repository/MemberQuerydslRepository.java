@@ -3,12 +3,12 @@ package onediary.onediary.member.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import onediary.onediary.member.domain.Member;
 import onediary.onediary.member.dto.member.MemberResponseDto;
-import onediary.onediary.member.entity.Member;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import static onediary.onediary.member.entity.QMember.member;
+import static onediary.onediary.member.domain.QMember.member;
 
 @Repository
 @RequiredArgsConstructor

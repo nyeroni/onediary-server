@@ -1,7 +1,7 @@
 package onediary.onediary.oauth.service;
 
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 import onediary.onediary.member.repository.MemberQuerydslRepository;
 import onediary.onediary.member.repository.MemberRepository;
 import onediary.onediary.oauth.client.ClientKakao;

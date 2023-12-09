@@ -1,8 +1,8 @@
-package onediary.onediary.record;
+package onediary.onediary.record.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 import onediary.onediary.component.auditing.BaseEntity;
 
 import java.time.LocalDate;

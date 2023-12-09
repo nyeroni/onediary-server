@@ -1,9 +1,9 @@
 package onediary.onediary.record.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 import onediary.onediary.member.repository.MemberRepository;
-import onediary.onediary.record.Record;
+import onediary.onediary.record.domain.Record;
 import onediary.onediary.record.repository.RecordQuerydslRepository;
 import onediary.onediary.record.repository.RecordRepository;
 import onediary.onediary.record.dto.record.RecordViewDto;
@@ -63,7 +63,7 @@ public class RecordServiceImpl implements IRecordService {
     @Override
     public void createRecord(String token, RecordWriteDto recordDto){
         Long memberId = authService.getMemberId(token);
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow();
 
         recordRepository.save(Record.builder()
                 .description(recordDto.getDescription())
@@ -100,7 +100,7 @@ public class RecordServiceImpl implements IRecordService {
     @Override
     public void deleteRecord(String token, Long recordId){
         Long memberId = authService.getMemberId(token);
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow();
 
         Record record = recordQuerydslRepository.findByRecordIdAndMemberId(recordId, memberId);
         member.getRecordList().remove(record);

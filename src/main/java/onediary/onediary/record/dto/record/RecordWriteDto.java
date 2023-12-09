@@ -1,8 +1,8 @@
 package onediary.onediary.record.dto.record;
 
 import lombok.*;
-import onediary.onediary.member.entity.Member;
-import onediary.onediary.record.Record;
+import onediary.onediary.member.domain.Member;
+import onediary.onediary.record.domain.Record;
 
 import java.time.LocalDate;
 

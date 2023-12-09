@@ -1,4 +1,4 @@
-package onediary.onediary.member.entity;
+package onediary.onediary.member.domain;
 
 import lombok.Getter;
 

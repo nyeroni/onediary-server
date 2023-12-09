@@ -2,9 +2,9 @@ package onediary.onediary.oauth.client;
 
 import lombok.RequiredArgsConstructor;
 import onediary.onediary.common.exception.TokenValidFailedException;
-import onediary.onediary.member.entity.Member;
-import onediary.onediary.member.entity.Role;
-import onediary.onediary.member.entity.SocialProvider;
+import onediary.onediary.member.domain.Member;
+import onediary.onediary.member.domain.Role;
+import onediary.onediary.member.domain.SocialProvider;
 import onediary.onediary.oauth.token.KakaoUserResponse;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;

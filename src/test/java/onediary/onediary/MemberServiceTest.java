@@ -1,12 +1,12 @@
 package onediary.onediary;
 
 import onediary.onediary.component.DatabaseCleaner;
-import onediary.onediary.member.entity.Member;
-import onediary.onediary.member.entity.Role;
-import onediary.onediary.member.entity.SocialProvider;
+import onediary.onediary.member.domain.Member;
+import onediary.onediary.member.domain.Role;
+import onediary.onediary.member.domain.SocialProvider;
 import onediary.onediary.member.repository.MemberRepository;
 import onediary.onediary.member.service.IMemberService;
-import onediary.onediary.record.Record;
+import onediary.onediary.record.domain.Record;
 import onediary.onediary.record.repository.RecordRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

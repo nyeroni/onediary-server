@@ -1,4 +1,4 @@
-package onediary.onediary.record;
+package onediary.onediary.record.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecord extends EntityPathBase<Record> {
 
-    private static final long serialVersionUID = -736960114L;
+    private static final long serialVersionUID = -846958306L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -44,7 +44,7 @@ public class QRecord extends EntityPathBase<Record> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
-    public final onediary.onediary.member.entity.QMember member;
+    public final onediary.onediary.member.domain.QMember member;
 
     public final DatePath<java.time.LocalDate> recordDate = createDate("recordDate", java.time.LocalDate.class);
 
@@ -66,7 +66,7 @@ public class QRecord extends EntityPathBase<Record> {
 
     public QRecord(Class<? extends Record> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new onediary.onediary.member.entity.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new onediary.onediary.member.domain.QMember(forProperty("member")) : null;
     }
 
 }

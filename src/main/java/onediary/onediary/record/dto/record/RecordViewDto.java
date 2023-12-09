@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import onediary.onediary.record.Record;
+import onediary.onediary.record.domain.Record;
 
 import java.time.LocalDate;
 

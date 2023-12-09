@@ -1,6 +1,5 @@
 package onediary.onediary.member.service;
 
-import onediary.onediary.member.entity.Member;
 import onediary.onediary.member.dto.member.MemberResponseDto;
 import onediary.onediary.record.dto.record.RecordViewDto;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +9,9 @@ import java.util.List;
 public interface IMemberService {
 
 
-    @Transactional
-    Member findMemberBySocialId(String socialId);
+//    @Transactional
+//    Member findMemberBySocialId(String socialId);
 
-    Member findMemberById(Long memberId);
     int findCount(Long memberId);
 
     @Transactional(readOnly = true)

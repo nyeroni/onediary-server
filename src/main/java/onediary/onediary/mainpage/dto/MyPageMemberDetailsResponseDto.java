@@ -1,11 +1,11 @@
-package onediary.onediary.member.dto.member;
+package onediary.onediary.mainpage.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import onediary.onediary.member.entity.Member;
+import onediary.onediary.member.domain.Member;
 
 @Data
 @Builder

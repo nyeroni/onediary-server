@@ -2,10 +2,10 @@ package onediary.onediary.record.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.record.Record;
+import onediary.onediary.record.domain.Record;
 import org.springframework.stereotype.Repository;
 
-import static onediary.onediary.record.QRecord.record;
+import static onediary.onediary.record.domain.QRecord.record;
 
 
 @Repository
@@ -21,5 +21,11 @@ public class RecordQuerydslRepository {
                 .fetchOne();
 
 
+    }
+    public Record findByMemberId(Long memberId){
+        return jpaQueryFactory
+                .selectFrom(record)
+                .where(record.member.id.eq(memberId))
+                .fetchOne();
     }
 }

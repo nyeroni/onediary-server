@@ -1,9 +1,9 @@
-package onediary.onediary.member.entity;
+package onediary.onediary.member.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import onediary.onediary.component.auditing.BaseTimeEntity;
-import onediary.onediary.record.Record;
+import onediary.onediary.record.domain.Record;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import static jakarta.persistence.EnumType.STRING;
 public class Member extends BaseTimeEntity{
 
     @Id
-    @Column(name = "member_id", columnDefinition = "BIGINT", nullable = false, unique = true)
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
