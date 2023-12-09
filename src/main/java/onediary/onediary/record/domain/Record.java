@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Setter
-@Table(name = "RECORD")
+@Table(name = "records")
 public class Record extends BaseEntity {
 
     @Id

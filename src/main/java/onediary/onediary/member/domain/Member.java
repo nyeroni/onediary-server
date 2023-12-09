@@ -17,7 +17,7 @@ import static jakarta.persistence.EnumType.STRING;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="MEMBER")
+@Table(name="members")
 @Setter
 public class Member extends BaseTimeEntity{
 
