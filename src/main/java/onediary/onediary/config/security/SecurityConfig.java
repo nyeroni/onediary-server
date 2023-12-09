@@ -37,8 +37,10 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/v2/api-docs"),
+                        AntPathRequestMatcher.antMatcher("/api-docs/**"),
                         AntPathRequestMatcher.antMatcher("/configuration/**"),
                         AntPathRequestMatcher.antMatcher("/swagger*/**"),
+                        AntPathRequestMatcher.antMatcher("/h2-console/**"),
                         AntPathRequestMatcher.antMatcher("/webjars/**"));
     }
 
@@ -48,6 +50,11 @@ public class SecurityConfig {
         TokenAuthenticationFilter tokenAuthenticationFilter = new TokenAuthenticationFilter(tokenProvider);
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+//                .headers((headerConfigurer) ->
+//                        headerConfigurer.frameOptions(frameOptionsConfig ->
+//                                frameOptionsConfig.disable()
+//                        )
+//                )
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable())
                 .httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.disable())
@@ -55,21 +62,15 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(
                                         CorsUtils::isPreFlightRequest,
+                                        AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
-
-                                        AntPathRequestMatcher.antMatcher("/api/v1/login/**"),
-                                        //AntPathRequestMatcher.antMatcher("/api/token/refresh"),
-                                        AntPathRequestMatcher.antMatcher("/api/records"),
-                               //         AntPathRequestMatcher.antMatcher("/api/v1/auth/login/**"),
-                                 //       AntPathRequestMatcher.antMatcher("/api/v1/auth/refresh/**"),
-                                        AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
+                                        AntPathRequestMatcher.antMatcher("api/success"),
+                                        AntPathRequestMatcher.antMatcher("/h2-console/**"),
+                                        AntPathRequestMatcher.antMatcher("/swagger-ui-onediary.html"),
                                         AntPathRequestMatcher.antMatcher("/api/success/**"),
-                                        AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                                        AntPathRequestMatcher.antMatcher("/v3/**"),
-                                        AntPathRequestMatcher.antMatcher("/v2/api-docs/**"),
-                                        AntPathRequestMatcher.antMatcher("/swagger-resources/**"),
-                                        AntPathRequestMatcher.antMatcher("/webjars/**"),
+                                        AntPathRequestMatcher.antMatcher("/api-docs/**"),
+                                        AntPathRequestMatcher.antMatcher("/swagger-ui-onediary/**"),
                                         AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)).permitAll()
 
                                 //     AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/exception/**")).permitAll()
@@ -92,15 +93,6 @@ public class SecurityConfig {
     }
 
 
-//
-//
-//    /*
-//     * 토큰 필터 설정
-//     * */
-//    @Bean
-//    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-//        return new TokenAuthenticationFilter(tokenProvider);
-//    }
 
 
     /*

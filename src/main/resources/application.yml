@@ -7,10 +7,10 @@ logging.level:
 
 springdoc:
   packages-to-scan: onediary.onediary
-  default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui-onediary.html
     tags-sorter: alpha
     operations-sorter: alpha
   api-docs:
@@ -38,14 +38,15 @@ cors:
 
 spring:
   jpa:
+
     properties:
       hibernate:
-        ddl-auto: update
+        hbm2ddl:
+          auto: update
         dialect: org.hibernate.dialect.MySQL57Dialect
         dialect.storage_engine: innodb
 
     show_sql: true
-    generate-ddl: true
 
   session:
     store-type: jdbc

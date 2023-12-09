@@ -4,11 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import onediary.onediary.member.repository.MemberRepository;
+import onediary.onediary.oauth.utils.JwtHeaderUtil;
 import onediary.onediary.record.dto.record.RecordViewDto;
 import onediary.onediary.record.dto.record.RecordWriteDto;
-import onediary.onediary.oauth.utils.JwtHeaderUtil;
-import onediary.onediary.member.service.IMemberService;
 import onediary.onediary.record.service.IRecordService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,7 @@ import java.time.LocalDate;
 @Tag(name="Records", description = "일기 관련 API")
 public class RecordApiController {
     private final IRecordService recordService;
-    private final IMemberService memberService;
-    private final MemberRepository memberRepository;
+
 
     @Operation(summary = "일기 생성", description = "새로운 일기를 생성합니다.")
     @RequestMapping (value = "/api/records/create", produces = "application/json", method = RequestMethod.POST)

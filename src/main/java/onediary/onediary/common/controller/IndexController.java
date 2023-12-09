@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController implements ErrorController {
     @GetMapping({"/", "/error"})
     public String index(){
-        return "index";
+        return "index.html";
     }
 }

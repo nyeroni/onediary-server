@@ -22,10 +22,10 @@ public class RecordQuerydslRepository {
 
 
     }
-    public Record findByMemberId(Long memberId){
-        return jpaQueryFactory
-                .selectFrom(record)
-                .where(record.member.id.eq(memberId))
-                .fetchOne();
-    }
+//    public Record findByMemberId(Long memberId){
+//        return jpaQueryFactory
+//                .selectFrom(record)
+//                .where(record.member.id.eq(memberId))
+//                .fetchOne();
+//    }
 }
