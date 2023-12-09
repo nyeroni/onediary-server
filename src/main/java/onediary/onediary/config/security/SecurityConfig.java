@@ -40,7 +40,7 @@ public class SecurityConfig {
                         AntPathRequestMatcher.antMatcher("/api-docs/**"),
                         AntPathRequestMatcher.antMatcher("/configuration/**"),
                         AntPathRequestMatcher.antMatcher("/swagger*/**"),
-                        AntPathRequestMatcher.antMatcher("/h2-console/**"),
+                     //   AntPathRequestMatcher.antMatcher("/h2-console/**"),
                         AntPathRequestMatcher.antMatcher("/webjars/**"));
     }
 
@@ -66,7 +66,7 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
                                         AntPathRequestMatcher.antMatcher("api/success"),
-                                        AntPathRequestMatcher.antMatcher("/h2-console/**"),
+                                   //     AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui-onediary.html"),
                                         AntPathRequestMatcher.antMatcher("/api/success/**"),
                                         AntPathRequestMatcher.antMatcher("/api-docs/**"),
