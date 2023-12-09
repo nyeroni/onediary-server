@@ -22,7 +22,7 @@ springdoc:
 
 
 server:
-  port: 8081
+  port: 8080
   servlet:
     encoding:
       force: true
@@ -40,10 +40,12 @@ spring:
   jpa:
     properties:
       hibernate:
+        ddl-auto: update
         dialect: org.hibernate.dialect.MySQL57Dialect
         dialect.storage_engine: innodb
 
     show_sql: true
+    generate-ddl: true
 
   session:
     store-type: jdbc
