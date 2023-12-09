@@ -58,12 +58,23 @@ public class MemberServiceImpl implements IMemberService {
     public List<RecordViewDto> getRecordList(String token){
         Long memberId = authService.getMemberId(token);
 
-        List<RecordViewDto> recordViewDtos = new ArrayList<>();
+        if (memberId == null) {
+            // 토큰이 유효하지 않은 경우
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+        }
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        if (optionalMember.isEmpty()) {
+            // 해당 회원이 존재하지 않는 경우
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저 정보가 존재하지 않습니다.");
+        }
+        Member member = optionalMember.get();
 
-        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        List<RecordViewDto> recordViewDtos = new ArrayList<>();
         for(Record record : member.getRecordList()) {
             recordViewDtos.add(RecordViewDto.toDto(record));
         }
+
         return recordViewDtos;
 
     }

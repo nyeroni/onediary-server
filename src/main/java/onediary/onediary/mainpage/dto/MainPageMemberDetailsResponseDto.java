@@ -11,7 +11,7 @@ import onediary.onediary.member.domain.Member;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyPageMemberDetailsResponseDto {
+public class MainPageMemberDetailsResponseDto {
 
     @Schema(description = "멤버 id", example = "1")
     private Long memberId;
@@ -22,8 +22,8 @@ public class MyPageMemberDetailsResponseDto {
     @Schema(description = "이번 달 지금까지 작성한 일기")
     private Integer diaryCount;
 
-    public static MyPageMemberDetailsResponseDto from (Member member){
-        return MyPageMemberDetailsResponseDto.builder()
+    public static MainPageMemberDetailsResponseDto from (Member member){
+        return MainPageMemberDetailsResponseDto.builder()
                 .memberId(member.getId())
                 .username(member.getUsername())
                 .diaryCount(member.getRecordCount())

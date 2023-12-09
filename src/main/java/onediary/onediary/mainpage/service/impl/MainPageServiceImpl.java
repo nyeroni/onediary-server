@@ -2,7 +2,7 @@ package onediary.onediary.mainpage.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import onediary.onediary.mainpage.dto.MyPageMemberDetailsResponseDto;
+import onediary.onediary.mainpage.dto.MainPageMemberDetailsResponseDto;
 import onediary.onediary.mainpage.service.IMainPageService;
 import onediary.onediary.member.dto.member.MemberResponseDto;
 import onediary.onediary.member.repository.MemberQuerydslRepository;
@@ -29,15 +29,15 @@ public class MainPageServiceImpl  implements IMainPageService {
 
     @Override
     @Transactional(readOnly = true)
-    public MyPageMemberDetailsResponseDto getMainPageDetail(String token){
+    public MainPageMemberDetailsResponseDto getMainPageDetail(String token){
 
         Long memberId = authService.getMemberId(token);
 
         MemberResponseDto member = memberQuerydslRepository.findByMemberId(memberId);
         if(member==null){
-            new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저가 없습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저가 없습니다.");
         }
-        return MyPageMemberDetailsResponseDto.builder()
+        return MainPageMemberDetailsResponseDto.builder()
                 .username(member.getUserName())
                 .memberId(memberId)
                 .diaryCount(member.getRecordCount())

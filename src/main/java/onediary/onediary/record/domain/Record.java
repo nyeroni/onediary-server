@@ -8,10 +8,11 @@ import onediary.onediary.component.auditing.BaseEntity;
 import java.time.LocalDate;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Setter
 public class Record extends BaseEntity {
 
     @Id

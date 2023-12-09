@@ -30,16 +30,16 @@ public class RecordServiceImpl implements IRecordService {
     @Override
     public RecordViewDto findRecordById(Long recordId) {
 
-        Optional<Record> optionalRecord = Optional.ofNullable(recordRepository.findById(recordId))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 베이커리 정보가 존재하지 않습니다."));
+        Record record = recordRepository.findById(recordId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 일기가 존재하지 않습니다."));
 
         return RecordViewDto.builder()
                 .id(recordId)
-                .description(optionalRecord.get().getDescription())
-                .emotion(optionalRecord.get().getEmotion())
-                .email(optionalRecord.get().getMember().getEmail())
-                .recordDate(optionalRecord.get().getRecordDate())
-                .currentScore(optionalRecord.get().getCurrentScore())
+                .description(record.getDescription())
+                .emotion(record.getEmotion())
+                .email(record.getMember().getEmail())
+                .recordDate(record.getRecordDate())
+                .currentScore(record.getCurrentScore())
                 .build();
     }
 

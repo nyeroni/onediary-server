@@ -1,258 +1,205 @@
-//package onediary.onediary;
-//
-//import onediary.onediary.component.DatabaseCleaner;
-//import onediary.onediary.member.entity.Member;
-//import onediary.onediary.member.entity.Role;
-//import onediary.onediary.member.entity.SocialProvider;
-//import onediary.onediary.member.repository.MemberRepository;
-//import onediary.onediary.record.domain.Record;
-//import onediary.onediary.record.repository.RecordRepository;
-//import onediary.onediary.record.dto.record.RecordViewDto;
-//import onediary.onediary.record.dto.record.RecordWriteDto;
-//import onediary.onediary.record.service.IRecordService;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.util.Optional;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//
-//
-//@SpringBootTest
-//public class RecordServiceTest {
-//
-//    @Autowired
-//    DatabaseCleaner databaseCleaner;
-//
-//    @Autowired
-//    private IRecordService recordService;
-//
-//    @Autowired
-//    RecordRepository recordRepository;
-//
-//    @Autowired
-//    MemberRepository memberRepository;
-//
-//    private Member member1;
-//    private Member member2;
-//    private RecordWriteDto record1Dto;
-//    private RecordWriteDto record2Dto;
-//    private RecordWriteDto record3Dto;
-//    private RecordWriteDto record4Dto;
-//
-//    @BeforeEach
-//    void setUp() {
-//        LocalDateTime member1CreateTime = LocalDateTime.of(2023, 11, 20, 15, 30);
-//        LocalDateTime member2CreateTime = LocalDateTime.of(2023, 11, 21, 15, 35);
-//        // given
-//        member1 = Member.builder()
-//                .username("member1")
-//                .email("test@gmail.com")
-//                .socialProvider(SocialProvider.APPLE)
-//                .role(Role.USER)
-//                .build();
-//
-//
-//        member2 = Member.builder()
-//                .username("member2")
-//                .email("test@naver.com")
-//                .socialProvider(SocialProvider.NAVER)
-//                .role(Role.USER)
-//                .build();
-//        memberRepository.save(member1);
-//        memberRepository.save(member2);
-//
-//        LocalDate specificTime1 = LocalDate.of(2023, 1, 7);
-//        LocalDate specificTime2 = LocalDate.of(2023, 4, 5);
-//        LocalDate specificTime3 = LocalDate.of(2023, 7, 31);
-//        LocalDate specificTime4 = LocalDate.of(2023, 12, 25);
-//
-//        record1Dto = RecordWriteDto.builder()
-//                .email(member1.getEmail())
-//                .description("안녕하세요.")
-//                .emotion("좋아")
-//                .recordDate(specificTime1)
-//                .build();
-//        record2Dto = RecordWriteDto.builder()
-//                .email(member1.getEmail())
-//                .description("반갑습니다.")
-//                .emotion("싫어")
-//                .recordDate(specificTime2)
-//                .build();
-//        record3Dto = RecordWriteDto.builder()
-//                .email(member1.getEmail())
-//                .description("테스트중입니다.")
-//                .emotion("메롱")
-//                .recordDate(specificTime3)
-//                .build();
-//        record4Dto = RecordWriteDto.builder()
-//                .email(member2.getEmail())
-//                .description("테스트용.")
-//                .emotion("하하")
-//                .recordDate(specificTime4)
-//                .build();
-//
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//        databaseCleaner.truncateAllEntity();
-//    }
-//
-////    @Test
-////    void findAllRecordsByMemberId() {
-////        //when
-////        recordService.createRecord(record1Dto, member1);
-////        recordService.createRecord(record2Dto, member1);
-////        recordService.createRecord(record3Dto, member1);
-////        recordService.createRecord(record4Dto, member2);
-////
-////        System.out.println("userSeq ===== " + member1.getMemberId());
-////        List<RecordViewDto> recordList = recordService.findAllRecordsByMemberId(member1.getMemberId());
-////
-////
-////        //then
-////
-////        assertThat(recordList).isNotNull();
-////        assertThat(recordList.size()).isEqualTo(3);
-////        assertThat(recordList.get(0).getEmail()).isEqualTo(member1.getEmail());
-////        assertThat(recordList.get(0).getDescription())
-////                .isEqualTo(record1Dto.getDescription());
-////    }
-////    @Test
-////    void findAllRecordsByEamil() {
-////        //when
-////        recordService.createRecord(record1Dto, member1);
-////        recordService.createRecord(record2Dto, member1);
-////        recordService.createRecord(record3Dto, member1);
-////        recordService.createRecord(record4Dto, member2);
-////
-////
-////        List<RecordViewDto> recordList = recordService.findAllRecordsByEmail(member1.getEmail());
-////
-////
-////        //then
-////
-////        assertThat(recordList).isNotNull();
-////        assertThat(recordList.size()).isEqualTo(3);
-////        assertThat(recordList.get(0).getEmail()).isEqualTo(member1.getEmail());
-////        assertThat(recordList.get(0).getDescription())
-////                    .isEqualTo(record1Dto.getDescription());
-////    }
-//
-//    @Test
-//    void findRecordById() {
-//        //given
-//        RecordViewDto recordDto = recordService.createRecord(record1Dto);
-//        Long recordId = recordDto.getId();
-//        //when
-//        RecordViewDto recordViewDto = recordService.findRecordById(recordId);
-//        //then
-//        assertThat(recordViewDto.getDescription()).isEqualTo(record1Dto.getDescription());
-//        assertThat(recordViewDto.getEmail()).isEqualTo(record1Dto.getEmail());
-//    }
-//
-//    @Test
-//    void findRecordByCreatedDate(){
-//        //given
-//        RecordViewDto recordDto = recordService.createRecord(record1Dto, member1);
-//        Long recordId = recordDto.getId();
-//        //when
-//
-//        Record createdRecord = recordRepository.findById(recordId).orElseThrow();
-//        Optional<RecordViewDto> recordByCreatedDate = recordService.findRecordByCreatedDate(createdRecord.getRecordDate());
-//
-//        //then
-//        assertTrue(recordByCreatedDate.isPresent());
-//        RecordViewDto recordViewDto = recordByCreatedDate.orElseThrow();
-//        assertThat(recordViewDto.getDescription()).isEqualTo(record1Dto.getDescription());
-//        assertThat(recordViewDto.getEmail()).isEqualTo(record1Dto.getEmail());
-//        assertThat(recordViewDto.getId()).isEqualTo(recordId);
-//
-//    }
-//
-//    @Test
-//    void createRecord(){
-//
-//        //when
-//        RecordViewDto recordDto = recordService.createRecord(record1Dto, member1);
-//
-//        //then
-//
-//        assertThat(recordDto.getDescription()).isEqualTo(record1Dto.getDescription());
-//        assertThat(recordDto.getEmail()).isEqualTo(record1Dto.getEmail());
-//    }
-//    @Test
-//    void updateRecordEmotion(){
-//        //given
-//        recordService.createRecord(record1Dto, member1);
-//        RecordViewDto recordDto = recordService.createRecord(record2Dto, member1);
-//        recordService.createRecord(record3Dto, member1);
-//
-//        Long recordId = recordDto.getId();
-//        //when
-//        String newEmotion="기분 달라졌다";
-//
-//        RecordViewDto updateRecordViewDto = recordService.updateRecordEmotion(recordId, newEmotion);
-//        //then
-//
-//        assertThat(updateRecordViewDto.getEmotion()).isEqualTo(newEmotion);
-//        assertThat(updateRecordViewDto.getEmail()).isEqualTo(record2Dto.getEmail());
-//        assertThat(updateRecordViewDto.getDescription()).isEqualTo(record2Dto.getDescription());
-//
-//    }
-//    @Test
-//    void updateRecordDescription(){
-//        //given
-//        recordService.createRecord(record1Dto, member1);
-//        RecordViewDto recordDto = recordService.createRecord(record2Dto, member1);
-//        recordService.createRecord(record3Dto, member1);
-//
-//        Long recordId = recordDto.getId();
-//        //when
-//        String newDescription="바꿨다!";
-//
-//        RecordViewDto updatedRecordViewDto = recordService.updateRecordDescription(recordId, newDescription);
-//        System.out.println("========"+updatedRecordViewDto.getDescription());
-//
-//        //then
-//        assertThat(updatedRecordViewDto.getDescription()).isEqualTo(newDescription);
-//        assertThat(updatedRecordViewDto.getEmail()).isEqualTo(record2Dto.getEmail());
-//        assertThat(updatedRecordViewDto.getId()).isEqualTo(recordId);
-//        assertThat(updatedRecordViewDto.getEmotion()).isEqualTo(record2Dto.getEmotion());
-//        assertThat(updatedRecordViewDto.getRecordDate()).isEqualTo(record2Dto.getRecordDate());
-//    }
-//
-//    @Transactional
-//    @Test
-//    void deleteRecord(){
-//        //given
-//
-//
-//        RecordViewDto recordDto = recordService.createRecord(record1Dto, member1);
-//        recordService.createRecord(record2Dto, member1);
-//        recordService.createRecord(record3Dto, member1);
-//
-//
-//
-//        int beforeDeleteCount = member1.getRecordCount();
-//        System.out.println("before"+beforeDeleteCount);
-//        //when
-//        recordService.deleteRecord(recordDto.getId());
-//
-//        int afterDeleteCount = member1.getRecordCount();
-//        System.out.println("after" + afterDeleteCount);
-//        //then
-//        assertThat(beforeDeleteCount).isEqualTo(3);
-//        assertThat(afterDeleteCount).isEqualTo(2);
-//
-//    }
-//
-//}
+package onediary.onediary;
+
+import onediary.onediary.member.domain.Member;
+import onediary.onediary.member.repository.MemberRepository;
+import onediary.onediary.oauth.service.AuthService;
+import onediary.onediary.record.domain.Record;
+import onediary.onediary.record.dto.record.RecordViewDto;
+import onediary.onediary.record.dto.record.RecordWriteDto;
+import onediary.onediary.record.repository.RecordQuerydslRepository;
+import onediary.onediary.record.repository.RecordRepository;
+import onediary.onediary.record.service.impl.RecordServiceImpl;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+
+@SpringBootTest
+@Import(TestSecurityConfig.class) // JWT 인증과정을 무시하기 위해 사용
+public class RecordServiceTest {
+
+
+    @InjectMocks
+    private RecordServiceImpl recordService;
+
+    @Mock
+   private RecordRepository recordRepository;
+
+    @Mock
+    private MemberRepository memberRepository;
+
+    @Mock
+    private AuthService authService;
+
+    @Mock
+    private RecordQuerydslRepository recordQuerydslRepository;
+
+    @Mock
+    Member member1;  // Mocked member
+
+
+    @Test
+    void findRecordById() {
+        //given
+        Long recordId = 1L;
+        Record record = new Record();
+        record.setId(recordId);
+        record.setDescription("Test description");
+        record.setEmotion("Happy");
+        record.setRecordDate(LocalDate.now());
+        record.setMember(member1);
+        given(recordRepository.findById(recordId)).willReturn(Optional.of(record));
+
+        // when
+        RecordViewDto recordViewDto = recordService.findRecordById(recordId);
+
+        // then
+        Assertions.assertThat(recordViewDto.getId()).isEqualTo(recordId);
+        Assertions.assertThat(recordViewDto.getDescription()).isEqualTo("Test description");
+        Assertions.assertThat(recordViewDto.getEmotion()).isEqualTo("Happy");
+        Assertions.assertThat(recordViewDto.getEmail()).isEqualTo(member1.getEmail());
+
+    }
+
+    @Test
+    void findRecordByCreatedDate(){
+        // given
+        LocalDate createdDate = LocalDate.now();
+
+        Long recordId = 1L;
+        Record record = new Record();
+        record.setId(recordId);
+        record.setDescription("Test description");
+        record.setEmotion("Happy");
+        record.setRecordDate(createdDate);
+        record.setMember(member1);
+        given(recordRepository.findByCreatedDate(createdDate)).willReturn(Optional.of(record));
+        // when
+        RecordViewDto recordViewDto = recordService.findRecordByCreatedDate(createdDate);
+
+        // then
+        Assertions.assertThat(recordViewDto).isNotNull();
+        Assertions.assertThat(recordViewDto.getId()).isEqualTo(recordId);
+        Assertions.assertThat(recordViewDto.getDescription()).isEqualTo("Test description");
+        Assertions.assertThat(recordViewDto.getEmotion()).isEqualTo("Happy");
+        Assertions.assertThat(recordViewDto.getRecordDate()).isEqualTo(createdDate);
+        Assertions.assertThat(recordViewDto.getEmail()).isEqualTo(member1.getEmail());
+
+    }
+
+    @Test
+    void createRecord(){
+        //given
+        String token = "sampleToken";
+        RecordWriteDto recordDto = new RecordWriteDto();
+        recordDto.setDescription("Test description");
+        recordDto.setEmotion("Happy");
+        recordDto.setRecordDate(LocalDate.now());
+
+        Long memberId = 1L;
+        Member member = new Member();
+        member.setId(memberId);
+
+        given(authService.getMemberId(token)).willReturn(memberId);
+        given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+
+        // when
+        recordService.createRecord(token, recordDto);
+
+        // then
+
+        verify(recordRepository, times(1)).save(argThat(record ->
+                record.getDescription().equals("Test description") &&
+                        record.getEmotion().equals("Happy") &&
+                        record.getRecordDate().equals(LocalDate.now()) &&
+                        record.getMember().equals(member)
+        ));
+    }
+    @Test
+    void updateRecordEmotion(){
+        // given
+        Long recordId = 1L;
+        String updatedEmotion = "Excited";
+
+        Record existingRecord = new Record();
+        existingRecord.setId(recordId);
+        existingRecord.setEmotion("Happy");
+
+        given(recordRepository.findById(recordId)).willReturn(Optional.of(existingRecord));
+
+        // when
+        recordService.updateRecordEmotion(recordId, updatedEmotion);
+
+        // then
+        verify(recordRepository, times(1)).save(argThat(record ->
+                        record.getId().equals(recordId) &&
+                                record.getEmotion().equals(updatedEmotion)
+                // Add more assertions based on your requirements
+        ));
+    }
+    @Test
+    void updateRecordDescription(){
+
+        // given
+        Long recordId = 1L;
+        String updatedDescription = "Updated description";
+
+        Record existingRecord = new Record();
+
+        existingRecord.setId(recordId);
+        existingRecord.setDescription("Original description");
+
+        given(recordRepository.findById(recordId)).willReturn(Optional.of(existingRecord));
+
+        // when
+        recordService.updateRecordDescription(recordId, updatedDescription);
+
+        // then
+        verify(recordRepository, times(1)).save(argThat(record ->
+                        record.getId().equals(recordId) &&
+                                record.getDescription().equals(updatedDescription)
+                // Add more assertions based on your requirements
+        ));
+    }
+
+    @Transactional
+    @Test
+    void deleteRecord(){
+        // given
+        String token = "sampleToken";
+        Long recordId = 1L;
+
+        Long memberId = 1L;
+        Member member = new Member();
+        member.setId(memberId);
+
+        Record record = new Record();
+        record.setId(recordId);
+        record.setMember(member);
+
+        given(authService.getMemberId(token)).willReturn(memberId);
+        given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+        given(recordQuerydslRepository.findByRecordIdAndMemberId(recordId, memberId)).willReturn(record);
+
+        // when
+        recordService.deleteRecord(token, recordId);
+
+        // then
+        verify(recordRepository, times(1)).delete(record);
+        verify(memberRepository, times(1)).save(member);
+
+    }
+
+}

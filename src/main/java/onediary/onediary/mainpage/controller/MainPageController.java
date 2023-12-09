@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import onediary.onediary.common.apiResponse.ApiResponse;
-import onediary.onediary.mainpage.dto.MyPageMemberDetailsResponseDto;
+import onediary.onediary.mainpage.dto.MainPageMemberDetailsResponseDto;
 import onediary.onediary.mainpage.service.IMainPageService;
 import onediary.onediary.member.service.IMemberService;
 import onediary.onediary.oauth.utils.JwtHeaderUtil;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "MyPage", description = "마이페이지 API")
 @RequiredArgsConstructor
-public class MyPageController {
+public class MainPageController {
 
     private final IMemberService memberService;
     private final IMainPageService mainPageService;
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈을 조회합니다.")
     @GetMapping("/mypage/{memberId}")
-    public ResponseEntity<MyPageMemberDetailsResponseDto> getMyPage(HttpServletRequest request) {
+    public ResponseEntity<MainPageMemberDetailsResponseDto> getMyPage(HttpServletRequest request) {
 
         String token = JwtHeaderUtil.getAccessToken(request);
 
