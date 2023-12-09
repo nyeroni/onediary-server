@@ -40,9 +40,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        hbm2ddl:
-          auto: update
-        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect: org.hibernate.dialect.MariaDBDialect
         dialect.storage_engine: innodb
     show_sql: true
 
