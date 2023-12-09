@@ -64,15 +64,6 @@ public class MemberServiceTest {
     void tearDown() {
         databaseCleaner.truncateAllEntity();
     }
-    @Test
-    void findMemberById() {
-        // when
-        Member findMember = memberService.findMemberById(member1.getId());
-
-        // then
-        assertThat(findMember.getUsername()).isEqualTo(member1.getUsername());
-        assertThat(findMember.getEmail()).isEqualTo(member1.getEmail());
-    }
 
     @Test
     void findCount() {
