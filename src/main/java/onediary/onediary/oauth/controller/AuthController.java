@@ -12,13 +12,11 @@ import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
 import onediary.onediary.oauth.utils.JwtHeaderUtil;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @RestController
-
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -31,7 +29,7 @@ public class AuthController {
      * @return ResponseEntity<AuthResponse>
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
-    @RequestMapping(value = "/auth/login/kakao", produces = "application/json", method = RequestMethod.POST)
+    @PostMapping(value = "/auth/login/kakao", produces = "application/json")
     public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestHeader(value = "Authorization") String token) {
         String accessToken = JwtHeaderUtil.extractAccessTokenFromHeader(token);
         if (accessToken == null) {
@@ -46,7 +44,7 @@ public class AuthController {
      * @return ResponseEntity<AuthResponse>
      */
     @Operation(summary = "jwtToken 갱신", description = "jwtToken 갱신")
-    @RequestMapping(value = "/auth//refresh", produces = "application/json", method = RequestMethod.GET)
+    @GetMapping(value = "/auth//refresh", produces = "application/json")
     public ResponseEntity<AuthResponseDto> refreshToken (HttpServletRequest request) {
         String appToken = JwtHeaderUtil.getAccessToken(request);
         AuthToken authToken = authTokenProvider.convertAuthToken(appToken);
