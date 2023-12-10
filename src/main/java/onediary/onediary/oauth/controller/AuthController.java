@@ -30,8 +30,8 @@ public class AuthController {
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
     @GetMapping(value = "/login/kakao", produces = "application/json")
-    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestHeader(value = "Authorization") String token) {
-        String accessToken = JwtHeaderUtil.extractAccessTokenFromHeader(token);
+    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(HttpServletRequest request) {
+        String accessToken = JwtHeaderUtil.getAccessToken(request);
         if (accessToken == null) {
             return ApiResponse.forbidden(null);
         }
