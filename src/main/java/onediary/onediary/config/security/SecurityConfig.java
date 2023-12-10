@@ -69,7 +69,7 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/h2-console/**"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui-onediary.html"),
                                         AntPathRequestMatcher.antMatcher("/api/success/**"),
-                                        AntPathRequestMatcher.antMatcher("/api-docs/**"),
+                                        AntPathRequestMatcher.antMatcher("/v2/api-docs/"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui-onediary/**"),
                                         AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)).permitAll()
 
