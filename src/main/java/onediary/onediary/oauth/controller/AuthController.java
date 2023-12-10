@@ -12,6 +12,7 @@ import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
 import onediary.onediary.oauth.utils.JwtHeaderUtil;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +32,8 @@ public class AuthController {
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
     @RequestMapping(value = "/auth/login/kakao", produces = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(HttpServletRequest request) {
-        String accessToken = JwtHeaderUtil.getAccessToken(request);
+    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestHeader(value = "Authorization") String token) {
+        String accessToken = JwtHeaderUtil.extractAccessTokenFromHeader(token);
         if (accessToken == null) {
             return ApiResponse.forbidden(null);
         }
