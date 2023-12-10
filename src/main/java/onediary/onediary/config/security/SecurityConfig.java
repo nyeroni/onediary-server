@@ -16,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -61,7 +60,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests->
                         authorizeRequests
                                 .requestMatchers(
-                                        CorsUtils::isPreFlightRequest,
+                                        AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/login/kakao/**"),
+                                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/auth/refresh/**"),
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
