@@ -60,8 +60,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests->
                         authorizeRequests
                                 .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/login/kakao/**"),
-                                        AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/auth/refresh/**"),
+                                        AntPathRequestMatcher.antMatcher("/auth/login/kakao/**"),
+                                        AntPathRequestMatcher.antMatcher("/auth/refresh/**"),
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
