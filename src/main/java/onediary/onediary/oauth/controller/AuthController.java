@@ -29,7 +29,7 @@ public class AuthController {
      * @return ResponseEntity<AuthResponse>
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
-    @PostMapping(value = "/auth/login/kakao", produces = "application/json")
+    @GetMapping(value = "/login/kakao", produces = "application/json")
     public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestHeader(value = "Authorization") String token) {
         String accessToken = JwtHeaderUtil.extractAccessTokenFromHeader(token);
         if (accessToken == null) {
@@ -44,7 +44,7 @@ public class AuthController {
      * @return ResponseEntity<AuthResponse>
      */
     @Operation(summary = "jwtToken 갱신", description = "jwtToken 갱신")
-    @GetMapping(value = "/auth//refresh", produces = "application/json")
+    @GetMapping(value = "/refresh", produces = "application/json")
     public ResponseEntity<AuthResponseDto> refreshToken (HttpServletRequest request) {
         String appToken = JwtHeaderUtil.getAccessToken(request);
         AuthToken authToken = authTokenProvider.convertAuthToken(appToken);
