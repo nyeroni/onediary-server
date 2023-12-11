@@ -5,6 +5,7 @@ import onediary.onediary.member.domain.Member;
 import onediary.onediary.member.repository.MemberQuerydslRepository;
 import onediary.onediary.member.repository.MemberRepository;
 import onediary.onediary.oauth.client.ClientKakao;
+import onediary.onediary.oauth.token.AuthRequestDto;
 import onediary.onediary.oauth.token.AuthResponseDto;
 import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
@@ -20,8 +21,8 @@ public class KakaoOauthService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public AuthResponseDto login(String accessToken) {
-        Member kakaoMember = clientKakao.getUserData(accessToken);
+    public AuthResponseDto login(AuthRequestDto authRequestDto) {
+        Member kakaoMember = clientKakao.getUserData(authRequestDto.getAccessToken());
         String socialId = kakaoMember.getSocialId();
         Member member = memberQuerydslRepository.findBySocialId(socialId);
 

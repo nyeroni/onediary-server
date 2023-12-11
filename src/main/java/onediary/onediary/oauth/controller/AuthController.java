@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import onediary.onediary.common.apiResponse.ApiResponse;
 import onediary.onediary.oauth.service.AuthService;
 import onediary.onediary.oauth.service.KakaoOauthService;
+import onediary.onediary.oauth.token.AuthRequestDto;
 import onediary.onediary.oauth.token.AuthResponseDto;
 import onediary.onediary.oauth.token.AuthToken;
 import onediary.onediary.oauth.token.AuthTokenProvider;
@@ -29,13 +30,9 @@ public class AuthController {
      * @return ResponseEntity<AuthResponse>
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
-    @GetMapping(value = "/login/kakao", produces = "application/json")
-    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(HttpServletRequest request) {
-        String accessToken = JwtHeaderUtil.getAccessToken(request);
-        if (accessToken == null) {
-            return ApiResponse.forbidden(null);
-        }
-        return ApiResponse.success(kakaoAuthService.login(accessToken));
+    @PostMapping(value = "/login/kakao", produces = "application/json")
+    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestBody AuthRequestDto authRequest) {
+        return ApiResponse.success(kakaoAuthService.login(authRequest));
     }
 
 
