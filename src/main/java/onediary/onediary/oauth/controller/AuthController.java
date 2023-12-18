@@ -34,11 +34,13 @@ public class AuthController {
      */
     @Operation(summary = "카카오 로그인", description = "카카오 엑세스 토큰을 이용하여 사용자 정보 받아 저장하고 앱의 토큰 반환")
     @PostMapping(value = "/login/kakao")
-    public ResponseEntity<AuthResponseDto> kakaoAuthRequest(@RequestHeader("Authorization") String authHeader, HttpServletResponse response) {
+    public ResponseEntity<Void> kakaoAuthRequest(@RequestHeader("Authorization") String authHeader, HttpServletResponse response) {
         String token = JwtHeaderUtil.extractAccessTokenFromHeader(authHeader);
+        log.info("token==="+token);
 
         AuthRequestDto authRequestDto = new AuthRequestDto(token);
         AuthResponseDto authResponse = kakaoAuthService.login(authRequestDto);
+
         response.setHeader("Authorization", "Bearer " + authResponse.getJwtToken());
 
         return ResponseEntity.ok().build();
