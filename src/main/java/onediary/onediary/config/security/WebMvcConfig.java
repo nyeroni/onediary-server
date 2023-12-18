@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
 
-    @Value("${server.endpoint}")
+    @Value("${cors.allowed-origins}")
     private String serverEndpoint;
 
 
@@ -19,6 +19,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addMapping("/**")
                 .allowedOrigins(serverEndpoint)
-                .allowedMethods(ALLOWED_METHOD_NAMES);
+                .allowedMethods(ALLOWED_METHOD_NAMES)
+                .allowedHeaders("Authorization")
+                .maxAge(3600);
     }
 }
